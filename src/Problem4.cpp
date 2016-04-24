@@ -36,6 +36,45 @@ struct node{
 	struct node *right;
 };
 
+void traverse(struct node*, struct node*);
+void insert_node(struct node *, struct node *);
+
 void merge_two_bst(struct node *root1, struct node *root2){
-	
+	if (root1 == NULL || root2 == NULL){
+		return;
+	}
+	traverse(root1, root2);
+}
+void traverse(struct node *r1, struct node *r2){		//post order traversal.
+	if (r2 == NULL){
+		return;
+	}
+	traverse(r1, r2->left);
+	traverse(r1, r2->right);
+	insert_node(r1, r2);
+}
+void insert_node(struct node *r1, struct node *ins){
+	if (r1 == NULL){
+		return;
+	}
+	struct node *p;
+	p = r1;
+	for (; r1 != NULL;){
+		p = r1;
+		if (r1->data <= ins->data){
+			r1 = r1->right;
+		}
+		else if (r1->data>ins->data){
+			r1 = r1->left;
+		}
+	}
+	if (p->data <= ins->data){
+		p->right = ins;
+		p = p->right;
+	}
+	else if(p->data>ins->data){
+		p->left = ins;
+		p = p->left;
+	}
+	p->left = p->right = NULL;
 }
